@@ -1,8 +1,10 @@
 package com.example.devil.hostelmanagement;
 
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v4.app.FragmentManager;
+
+import com.example.devil.hostelmanagement.Fragment.AttendanceMenu;
+import com.example.devil.hostelmanagement.Fragment.BaseFragment;
+import com.example.devil.hostelmanagement.Fragment.ComplaintMenu;
+import com.example.devil.hostelmanagement.Fragment.FeeMenu;
+import com.example.devil.hostelmanagement.Fragment.FoodMenu;
+import com.example.devil.hostelmanagement.Fragment.NoticeMenu;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +34,13 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        fragmentManager = getSupportFragmentManager();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Developed by IOTA", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -81,15 +94,25 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_food) {
-            // Handle the camera action
+            setTitle("Food");
+            Fragment fragment = new FoodMenu();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
         } else if (id == R.id.nav_fee) {
-
+            setTitle("Fee");
+            Fragment fragment = new FeeMenu();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
         } else if (id == R.id.nav_notice) {
-
+            setTitle("Notice");
+            Fragment fragment = new NoticeMenu();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
         } else if (id == R.id.nav_attendance) {
-
+            setTitle("Attendance");
+            Fragment fragment = new AttendanceMenu();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
         }else if (id == R.id.nav_complaint) {
-
+            setTitle("Complaint");
+            Fragment fragment = new ComplaintMenu();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

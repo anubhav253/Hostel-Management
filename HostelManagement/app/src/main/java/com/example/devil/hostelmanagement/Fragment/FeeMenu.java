@@ -10,20 +10,14 @@ import android.view.ViewGroup;
 
 import com.example.devil.hostelmanagement.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FeeMenu.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FeeMenu#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FeeMenu extends Fragment {
+
+public class FeeMenu extends BaseFragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    View view;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -64,6 +58,8 @@ public class FeeMenu extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        view = inflater.inflate(R.layout.fragment_fee_menu, container, false);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_fee_menu, container, false);
     }
@@ -76,20 +72,8 @@ public class FeeMenu extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+    public void onClick(View view) {
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /**
