@@ -21,6 +21,7 @@ import com.example.devil.hostelmanagement.Fragment.BaseFragment;
 import com.example.devil.hostelmanagement.Fragment.ComplaintMenu;
 import com.example.devil.hostelmanagement.Fragment.FeeMenu;
 import com.example.devil.hostelmanagement.Fragment.FoodMenu;
+import com.example.devil.hostelmanagement.Fragment.Login;
 import com.example.devil.hostelmanagement.Fragment.NoticeMenu;
 
 public class MainActivity extends AppCompatActivity
@@ -93,7 +94,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_food) {
+        if (id == R.id.nav_login) {
+            setTitle("Login");
+            Fragment fragment = new Login();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
+        }
+        else if (id == R.id.nav_food) {
             setTitle("Food");
             Fragment fragment = new FoodMenu();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
@@ -113,10 +119,6 @@ public class MainActivity extends AppCompatActivity
             setTitle("Complaint");
             Fragment fragment = new ComplaintMenu();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
