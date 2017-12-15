@@ -1,13 +1,51 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.devil.hostelmanagement.Fragment.Login">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/email"
+            android:hint="Email id"
+            android:text=""
+            android:textSize="30dp"
+            android:layout_marginBottom="30dp"
+            android:textAlignment="center"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/password"
+            android:hint="Password"
+            android:text=""
+            android:textSize="25dp"
+            android:textAlignment="center"
+            />
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:id="@+id/login"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:text="Login"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/register"
+            android:text="Register"
+            android:textSize="25dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
