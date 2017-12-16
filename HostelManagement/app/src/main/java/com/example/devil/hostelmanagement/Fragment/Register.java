@@ -18,7 +18,7 @@ import com.example.devil.hostelmanagement.R;
  * Use the {@link Register#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Register extends BaseFragment implements View.OnClickListener {
+public class Register extends Login implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,10 +55,10 @@ public class Register extends BaseFragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+       setContentView(R.layout.fragment_register);
+    }
+
+    private void setContentView(int fragment_register) {
     }
 
     @Override
