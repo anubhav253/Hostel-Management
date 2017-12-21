@@ -18,10 +18,10 @@ def test():
 @app.route('/login', methods=['POST'])
 def checkLogin():
 	#print ("request loggingg" , request.body);
-	FullName = request.json['FullName'];
+	Email = request.json['Email'];
 	U_password = request.json['U_password'];
-	print ("FullName " + FullName); 
-	sql = "SELECT * from `signup` where FullName='Anubhav Kumar' and U_password='anubhav'";
+	print ("Email " + Email);
+	sql = "SELECT * from `signup` where Email='anubhavkumar.cse19@jecrc.ac.in' and U_password='anubhavk'";
 	a.execute(sql);
 	data = a.fetchall();
 	response = "";
