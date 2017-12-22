@@ -1,6 +1,6 @@
 import MySQLdb
 
-conn = MySQLdb.connect(host='localhost',user='root',passwd='Devil253',db='hostel')
+conn = MySQLdb.connect(host='localhost',user='root',passwd='abc123',db='hostel')
 a=conn.cursor()
 
 sql = "SELECT * from `signup`";
