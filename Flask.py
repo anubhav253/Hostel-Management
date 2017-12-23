@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, json
 import MySQLdb
+import datetime
 
 conn = MySQLdb.connect(host='localhost',user='root',passwd='abc123',db='hostel')
 a=conn.cursor()
@@ -21,7 +22,7 @@ def checkLogin():
 	Email = request.json['Email'];
 	U_password = request.json['U_password'];
 	print ("Email " + Email);
-	sql = "SELECT * from `users` where Email='anubhavkumar.cse19@jecrc.ac.in' and U_password='anubhavk'";
+	sql = "SELECT * from `users` where Email='%s' and U_password='%s'"% (Email,U_password);
 	a.execute(sql);
 	data = a.fetchall();
 	response = "";
@@ -33,9 +34,10 @@ def checkLogin():
 	        mimetype='application/json'
 	    )
 	else:
-		#invalid user since we cannot find any one with matching name
 		response = app.response_class(
-	        response=json.dumps(""),
+	        response=json.dumps({
+	        	"message": "something went wrong please try again"
+	        	}),
 	        status=400,
 	        mimetype='application/json'
 	    )
@@ -65,13 +67,78 @@ def checkSignUp():
 	else:
 		#invalid user since we cannot find any one with matching name
 		response = app.response_class(
-	        response=json.dumps(""),
+	        response=json.dumps({
+	        	"message" :"Something Went Wrong please try again later"
+	        	}),
 	        status=400,
 	        mimetype='application/json'
 	    )
 	return response
 
+@app.route('/fooddata', methods=['POST'])
+def postFoodData():
+	#print ("request loggingg" , request.body);
+	email = request.json['email'];
+	foodId = request.json['foodId'];
+	selected = request.json['selected'];
+	sql = "INSERT into food_record(user_id,food_id,status) VALUES ('%s', '%s', '%s')" % (email,foodId,selected)
+	data=a.execute(sql);
+	conn.commit();
+	print ("data", data)
+	response = "";
+	if(data):
+		#valid User
+		response = app.response_class(
+	        response=json.dumps({
+	        	"message" : "Your request has been submitted"
+	        	}),
+	        status=200,
+	        mimetype='application/json'
+	    )
+	else:
+		#invalid user since we cannot find any one with matching name
+		response = app.response_class(
+	        response=json.dumps({
+	        	"message" : "Something went wrong while processing you request"
+	        	}),
+	        status=400,
+	        mimetype='application/json'
+	    )
+	return response
 
+@app.route('/fooddata', methods=['GET'])
+def getFoodData():
+	
+	getdate = request.args.get("date");
+
+	timedelta = datetime.timedelta(days=int(getdate));
+	now = datetime.datetime.now()
+
+	currenDate = now.strftime("%Y-%m-%d")
+	nextDate = now + timedelta
+	nextDate = nextDate.strftime("%Y-%m-%d")
+
+	sql = "SELECT * from foodmenu where date = '%s'" % nextDate
+	a.execute(sql);
+	data = a.fetchall();
+	response = "";
+	if(len(data)):
+		#valid User
+		response = app.response_class(
+	        response=json.dumps(data),
+	        status=200,
+	        mimetype='application/json'
+	    )
+	else:
+		#invalid user since we cannot find any one with matching name
+		response = app.response_class(
+	        response=json.dumps({
+	        		"message" : "Something Went wrong not datat found"
+	        	}),
+	        status=400,
+	        mimetype='application/json'
+	    )
+	return response
 
 if __name__ == '__main__':
 	app.run(debug=True,port=8080)
