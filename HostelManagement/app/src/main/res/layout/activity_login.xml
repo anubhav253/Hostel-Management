@@ -51,6 +51,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
             android:text="SIGN IN"
+            android:onClick="SignIn"
             android:textStyle="bold"
             android:textColor="#ffffff"
             android:background="#3a4148"
