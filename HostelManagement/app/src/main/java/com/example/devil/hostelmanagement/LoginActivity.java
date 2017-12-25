@@ -3,6 +3,7 @@ package com.example.devil.hostelmanagement;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.devil.hostelmanagement.utils.PrefManager;
@@ -10,12 +11,14 @@ import com.example.devil.hostelmanagement.utils.PrefManager;
 public class LoginActivity extends AppCompatActivity {
 
     private PrefManager prefManager;
+    private static String log = "LogInActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         prefManager = new PrefManager(this);
+        Log.i("ON create", log);
         if (!prefManager.isLoggedIn()) {
             launchHomeScreen();
             finish();
