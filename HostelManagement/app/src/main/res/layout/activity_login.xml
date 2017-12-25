@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textAlignment="center"
     android:background="@color/colorPrimary"
     tools:context="com.example.devil.hostelmanagement.LoginActivity">
 
@@ -11,6 +12,7 @@
         android:id="@+id/email_login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="100dp"
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
@@ -22,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
+                android:textColor="#ffffff"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -48,7 +51,7 @@
         <Button
             android:id="@+id/email_sign_in_button"
             style="?android:textAppearanceSmall"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
             android:text="SIGN IN"
@@ -58,6 +61,15 @@
             android:background="#3a4148"
             android:layout_gravity="center_horizontal" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/register"
+            android:text="New User? Register here"
+            android:paddingTop="50dp"
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            android:gravity="center"/>
 
     </LinearLayout>
 
