@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Full Name"
-            android:id="@+id/name"
+            android:id="@+id/register_name"
             android:layout_gravity="center_horizontal"
             />
         <TextView
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:id="@+id/new_user_email"
+            android:id="@+id/register_email"
             android:layout_gravity="center_horizontal"
             />
         <TextView
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone Number"
-            android:id="@+id/phone_number"
+            android:id="@+id/register_phone_number"
             android:layout_gravity="center_horizontal"
             />
         <TextView
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:id="@+id/new_user_pass"
+            android:id="@+id/register_password"
             android:layout_gravity="center_horizontal"
             android:inputType="textPassword"
             />
