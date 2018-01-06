@@ -16,6 +16,7 @@ import com.example.devil.hostelmanagement.Remote.UserService;
 import com.example.devil.hostelmanagement.model.ResObj;
 import com.example.devil.hostelmanagement.utils.PrefManager;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import retrofit2.Call;
@@ -103,22 +104,25 @@ public class LoginActivity extends AppCompatActivity {
         String BASE_URL = "http://192.168.43.171:8080/";
         UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
         JSONObject body = new JSONObject(); //yaha value baad mai daal denge abhi body empty jaega
-        Call<ResObj> call= userService.login(body);
-        call.enqueue(new Callback<ResObj>() {
+        try {
+            body.put("Email", Email);
+            body.put("U_password", U_password);
+        } catch (JSONException e){
+            Log.i("JSON Object", "Something went wrong while adding json");
+        }
+        Call<JSONObject> call= userService.login(body);
+        call.enqueue(new Callback<JSONObject>() {
             @Override
-            public void onResponse(Call<ResObj> call, Response<ResObj> response) {
-                if(response.isSuccessful()) {
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                if(response.code() == 200) {
                     Log.i("Flask Response", "" + response.code() + response.message());
-                    ResObj resObj = response.body();
-                    if (resObj.getMessage().equals("true")) {
-                        Intent i =new Intent(LoginActivity.this,MainActivity.class);
-                        i.putExtra("Email", Email);
-                        startActivity(i);
-
-                    }
-                    else {
+                    JSONObject resObj = response.body();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    i.putExtra("Email", "ada");
+                    startActivity(i);
+                }
+                else if(response.code() == 400){
                         Toast.makeText(LoginActivity.this, "The user name or password is incorrect", Toast.LENGTH_SHORT).show();
-                    }
                 }
                 else{
                     Log.i("Flask Response", "" + response.code() + response.message());
@@ -128,8 +132,9 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResObj> call, Throwable t) {
+            public void onFailure(Call<JSONObject> call, Throwable t) {
                 Log.i("Flask Response", "" + t.getMessage());
+                Log.i("Flask Resposne err", t.getStackTrace().toString());
                 Toast.makeText(LoginActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
 
             }

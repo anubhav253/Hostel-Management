@@ -16,6 +16,6 @@ import retrofit2.http.Path;
 
 public interface UserService {
 
-    @POST("login)")
-    Call<ResObj> login(@Body JSONObject body);
+    @POST("login")
+    Call<JSONObject> login(@Body JSONObject body);
 }

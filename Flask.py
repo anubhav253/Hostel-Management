@@ -19,17 +19,21 @@ def test():
 @app.route('/login', methods=['POST'])
 def checkLogin():
 	#print ("request loggingg" , request.body);
-	Email = request.json['Email'];
-	U_password = request.json['U_password'];
-	print ("Email " + Email);
+	#print (request.get_json() );
+	body_json = request.get_json();
+	body = body_json["nameValuePairs"];
+	Email = body['Email'];
+	U_password = body['U_password'];
+	#print ("Email " + Email);
 	sql = "SELECT * from `users` where Email='%s' and U_password='%s'"% (Email,U_password);
 	a.execute(sql);
 	data = a.fetchall();
 	response = "";
 	if(len(data)):
 		#valid User
+		#print (jsonify(data))
 		response = app.response_class(
-	        response=json.dumps(data),
+	        response=json.dumps({}),
 	        status=200,
 	        mimetype='application/json'
 	    )
