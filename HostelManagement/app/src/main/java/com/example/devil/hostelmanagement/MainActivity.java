@@ -92,10 +92,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_login) {
-            setTitle("Login");
-        }
-        else if (id == R.id.nav_food) {
+       if (id == R.id.nav_food) {
             setTitle("Food");
             Fragment fragment = new FoodMenu();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
