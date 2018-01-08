@@ -50,10 +50,10 @@ def checkLogin():
 @app.route('/signup', methods=['POST'])
 def checkSignUp():
 	#print ("request loggingg" , request.body);
-	Email = request.json['Email'];
-	U_password = request.json['password'];
-	fullname = request.json['fullname'];
-	mobile = request.json['mobile'];
+	Email = request.json['nameValuePairs']['Email'];
+	U_password = request.json['nameValuePairs']['password'];
+	fullname = request.json['nameValuePairs']['fullname'];
+	mobile = request.json['nameValuePairs']['mobile'];
 	print ("Email " + Email);
 	#sql = "INSERT INTO products(name, category_id, sub_category_id) VALUES ('%s' ,%d, %d)" % (name + ' (' + sku + ')',i+1,i+1)
 	sql = "INSERT into users(Email,FullName,PhoneNumber,U_password) VALUES ('%s', '%s', '%s', '%s')" % (Email,fullname, mobile, U_password)

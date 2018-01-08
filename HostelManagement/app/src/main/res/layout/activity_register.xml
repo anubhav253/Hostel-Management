@@ -11,80 +11,86 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="10dp"
             android:text="Registration Form"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textStyle="bold"
-            android:layout_marginBottom="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            />
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Full Name"
             android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <EditText
+            android:id="@+id/register_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full Name"
-            android:id="@+id/register_name"
             android:layout_gravity="center_horizontal"
-            />
+            android:hint="Full Name" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
             android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <EditText
+            android:id="@+id/register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            android:id="@+id/register_email"
             android:layout_gravity="center_horizontal"
-            />
+            android:hint="Email" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Phone Number"
             android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <EditText
+            android:id="@+id/register_phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Phone Number"
-            android:id="@+id/register_phone_number"
             android:layout_gravity="center_horizontal"
-            />
+            android:hint="Phone Number" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Password"
             android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <EditText
+            android:id="@+id/register_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:id="@+id/register_password"
             android:layout_gravity="center_horizontal"
-            android:inputType="textPassword"
-            />
+            android:hint="Password"
+            android:inputType="textPassword" />
 
         <Button
+            android:id="@+id/register_form"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:text="Register"
-            android:id="@+id/register_form"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            />
+            android:text="Register" />
+
+
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

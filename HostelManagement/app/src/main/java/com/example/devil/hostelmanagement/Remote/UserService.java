@@ -18,4 +18,8 @@ public interface UserService {
 
     @POST("login")
     Call<JSONObject> login(@Body JSONObject body);
+
+    @POST("signup")
+    Call<JSONObject> register(@Body JSONObject body);
+
 }

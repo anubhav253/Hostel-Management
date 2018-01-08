@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.devil.hostelmanagement.Remote.ApiUtils;
 import com.example.devil.hostelmanagement.Remote.RetrofitClient;
 import com.example.devil.hostelmanagement.Remote.UserService;
+import com.example.devil.hostelmanagement.constants.ProjectConstants;
 import com.example.devil.hostelmanagement.model.ResObj;
 import com.example.devil.hostelmanagement.utils.PrefManager;
 
@@ -101,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void doLogin(final String Email, final String U_password){
-        String BASE_URL = "http://192.168.43.171:8080/";
+        String BASE_URL = ProjectConstants.BASE_URL;
         UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
         JSONObject body = new JSONObject(); //yaha value baad mai daal denge abhi body empty jaega
         try {
