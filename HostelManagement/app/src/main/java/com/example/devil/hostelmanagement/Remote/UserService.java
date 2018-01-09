@@ -9,6 +9,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by DEVIL on 12/26/2017.
@@ -21,5 +22,8 @@ public interface UserService {
 
     @POST("signup")
     Call<JSONObject> register(@Body JSONObject body);
+
+    @GET("fooddata")
+    Call<JSONObject> fooddata(@Query("date") String date);
 
 }

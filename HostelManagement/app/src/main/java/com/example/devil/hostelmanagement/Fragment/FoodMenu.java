@@ -1,14 +1,30 @@
 package com.example.devil.hostelmanagement.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.devil.hostelmanagement.LoginActivity;
+import com.example.devil.hostelmanagement.MainActivity;
 import com.example.devil.hostelmanagement.R;
+import com.example.devil.hostelmanagement.Remote.RetrofitClient;
+import com.example.devil.hostelmanagement.Remote.UserService;
+import com.example.devil.hostelmanagement.constants.ProjectConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +76,40 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        getFoodData();
+    }
+
+    private  void getFoodData(){
+        String BASE_URL = ProjectConstants.BASE_URL;
+        UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
+        Call<JSONObject> call= userService.fooddata("1");
+        call.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                if(response.code() == 200) {
+                    Log.i("Flask Response", "" + response.code() + response.message());
+                    JSONObject resObj = response.body();
+                    Log.i("Flask Response",resObj.toString());
+//                    JSONArray breafast = resObj[0];
+                }
+                else if(response.code() == 400){
+                    Toast.makeText(getActivity(), "The user name or password is incorrect", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Log.i("Flask Response", "" + response.code() + response.message());
+                    Toast.makeText(getActivity(),"Error, Try again!",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                Log.i("Flask Response", "" + t.getMessage());
+                Log.i("Flask Resposne err", t.getStackTrace().toString());
+                Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @Override
@@ -68,6 +118,7 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_food_menu, container, false);
+        getFoodData();
         return inflater.inflate(R.layout.fragment_food_menu, container, false);
     }
 

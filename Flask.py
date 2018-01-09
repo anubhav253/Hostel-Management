@@ -129,7 +129,9 @@ def getFoodData():
 	if(len(data)):
 		#valid User
 		response = app.response_class(
-	        response=json.dumps(data),
+	        response=json.dumps({
+                        "data":data
+                }),
 	        status=200,
 	        mimetype='application/json'
 	    )
