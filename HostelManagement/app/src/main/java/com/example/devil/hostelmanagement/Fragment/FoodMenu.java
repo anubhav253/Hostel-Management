@@ -18,6 +18,9 @@ import com.example.devil.hostelmanagement.R;
 import com.example.devil.hostelmanagement.Remote.RetrofitClient;
 import com.example.devil.hostelmanagement.Remote.UserService;
 import com.example.devil.hostelmanagement.constants.ProjectConstants;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,13 +42,13 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g.
 
-    private TextView food_date;
-    private TextView food_breakfast;
-    private TextView food_lunch;
-    private TextView food_dinner;
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    TextView food_date;
+    TextView food_breakfast;
+    TextView food_lunch;
+    TextView food_dinner;
 
     View view;
     // TODO: Rename and change types of parameters
@@ -66,7 +69,7 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
      * @param param2 Parameter 2.
      * @return A new instance of fragment FoodMenu.
      */
-    // TODO: Rename and change types and number of parameters
+     //TODO: Rename and change types and number of parameters
     public static FoodMenu newInstance(String param1, String param2) {
         FoodMenu fragment = new FoodMenu();
         Bundle args = new Bundle();
@@ -79,28 +82,50 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getFoodData();
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
-    private  void getFoodData(){
+    private  void getFoodData(View view){
+        setTextViews(view);
         String BASE_URL = ProjectConstants.BASE_URL;
         UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
-        Call<JSONObject> call= userService.fooddata("1");
-        call.enqueue(new Callback<JSONObject>() {
+        Call<JsonObject> call= userService.fooddata("1");
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.code() == 200) {
                     Log.i("Flask Response", "" + response.code() + response.message());
-                    JSONObject resObj = response.body();
+                    JsonObject resObj = response.body();
+                    JsonArray dataArray = resObj.getAsJsonArray("data");
+                    for(int i  = 0; i<dataArray.size(); i++ ){
+                        JsonArray food = (JsonArray) dataArray.get(i);
+                        String foodType = food.get(1).toString();
+                        String foodName = food.get(2).toString();
+                        String foodDate =  food.get(3).toString().substring(1,18);
+                        food_date.setText(foodDate);
+                        foodType = foodType.substring(1, foodType.length()-1);
+                        Log.i("Parsing Values " ,foodType);
 
-                    //
-                    food_date.setText("2018-01-10");
-                    food_breakfast.setText("POHA");
-                    food_lunch.setText("Kadi , Chane");
-                    food_dinner.setText("Aaloo gobhi, Chana dal");
+                        String str = foodType + ":-" + foodName;
 
+                        if(foodType.equals("Breakfast")){
+                            food_breakfast.setText(str);
+                        }
+                        else if (foodType.equals("Lunch") ){
+                            food_lunch.setText(str);
+                        }
+                        else if(foodType.equals("Dinner")){
+                            food_dinner.setText(str);
+                        }
+                        else{
+                                Log.i("parsing value", "Everything ok");
+                        }
+                    }
                     Log.i("Flask Response",resObj.toString());
-//                    JSONArray breafast = resObj[0];
+//                  JSONArray breafast = resObj[0];
                 }
                 else if(response.code() == 400){
                     Toast.makeText(getActivity(), "The user name or password is incorrect", Toast.LENGTH_SHORT).show();
@@ -108,16 +133,21 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
                 else{
                     Log.i("Flask Response", "" + response.code() + response.message());
                     Toast.makeText(getActivity(),"Error, Try again!",Toast.LENGTH_SHORT).show();
+                    food_breakfast.setText("Not Available");
+                    food_lunch.setText("Not Available");
+                    food_dinner.setText("Not Available");
                 }
 
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.i("Flask Response", "" + t.getMessage());
                 Log.i("Flask Resposne err", t.getStackTrace().toString());
                 Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_SHORT).show();
-
+                food_breakfast.setText("Not Available");
+                food_lunch.setText("Not Available");
+                food_dinner.setText("Not Available");
             }
         });
     }
@@ -128,14 +158,15 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_food_menu, container, false);
+        getFoodData(view);
+        return view;
+    }
 
+    private void setTextViews(View view){
         food_date = (TextView)view.findViewById(R.id.food_date);
         food_breakfast = (TextView)view.findViewById(R.id.food_breakfast);
         food_lunch = (TextView)view.findViewById(R.id.food_lunch);
         food_dinner = (TextView)view.findViewById(R.id.food_dinner);
-
-        getFoodData();
-        return inflater.inflate(R.layout.fragment_food_menu, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

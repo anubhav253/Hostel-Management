@@ -156,7 +156,7 @@ def complaint():
 	complain = request.json['nameValuePairs']['complain'];
 	print ("Room Number " + RoomNumber);
 	#sql = "INSERT INTO products(name, category_id, sub_category_id) VALUES ('%s' ,%d, %d)" % (name + ' (' + sku + ')',i+1,i+1)
-	sql = "INSERT into complaint(FullName,RoomNumber,complaint_type,complain) VALUES ('%s', '%s', '%s', '%s')" % (Email,fullname, mobile, U_password)
+	sql = "INSERT into complaint(FullName,RoomNumber,complaint_type,complain) VALUES ('%s', '%s', '%s', '%s')" % (FullName,RoomNumber, complaint_type, complain)
 	data = a.execute(sql);
 	conn.commit();
 	print ("data", data)
@@ -180,4 +180,5 @@ def complaint():
 	return response
 
 if __name__ == '__main__':
-	app.run(host="0.0.0.0",debug=True,port=8080)
+	app.run(host="0.0.0.0",debug=True,port=8080
+                )
