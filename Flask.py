@@ -164,7 +164,7 @@ def complaint():
 	if(data):
 		#valid User
 		response = app.response_class(
-	        response=json.dumps(data),
+	        response=json.dumps({"data":data}),
 	        status=200,
 	        mimetype='application/json'
 	    )
@@ -180,5 +180,4 @@ def complaint():
 	return response
 
 if __name__ == '__main__':
-	app.run(host="0.0.0.0",debug=True,port=8080
-                )
+	app.run(host="0.0.0.0",debug=True,port=8080)

@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.devil.hostelmanagement.LoginActivity;
+import com.example.devil.hostelmanagement.MainActivity;
 import com.example.devil.hostelmanagement.R;
 import com.example.devil.hostelmanagement.Remote.RetrofitClient;
 import com.example.devil.hostelmanagement.Remote.UserService;
@@ -84,18 +85,6 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        complaint_name = (EditText)view.findViewById(R.id.complaint_name);
-        complaint_room = (EditText)view.findViewById(R.id.complaint_room);
-        complaint_complain = (EditText)view.findViewById(R.id.complaint_complain);
-
-        complaint_button = (Button)view.findViewById(R.id.complaint_button);
-        complaint_button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                getComplaint(view);
-            }
-        });
-
 
     }
 
@@ -104,11 +93,6 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
         RoomNumber = complaint_room.getText().toString();
         complain = complaint_complain.getText().toString();
 
-        if (FullName == "" ||  RoomNumber == ""  || complain == ""){
-            Toast.makeText(getActivity(), "Please provide all the details",Toast.LENGTH_SHORT).show();
-        }
-
-
         String BASE_URL = ProjectConstants.BASE_URL;
         UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
         JSONObject body = new JSONObject();
@@ -116,6 +100,7 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
             body.put("FullName", FullName);
             body.put("RoomNumber", RoomNumber);
             body.put("complain",complain);
+            body.put("complaint_type", "food");
         } catch (JSONException e){
             Log.i("JSON Object", "Something went wrong while adding json");
         }
@@ -126,7 +111,7 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
                 if(response.code() == 200) {
                     Log.i("Flask Response", "" + response.code() + response.message());
                     JSONObject resObj = response.body();
-                    Intent i=new Intent(getActivity(),LoginActivity.class);
+                    Intent i=new Intent(getActivity(),MainActivity.class);
                     startActivity(i);
                 }
                 else if(response.code() == 400){
@@ -155,7 +140,8 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_complaint_menu, container, false);
         // Inflate the layout for this fragment
-        getComplaint(view);
+//        getComplaint(view);
+        setTextViews(view);
         return view;
     }
 
@@ -169,6 +155,20 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
     @Override
     public void onClick(View view) {
 
+    }
+
+    public void setTextViews(View view) {
+        complaint_name = (EditText)view.findViewById(R.id.complaint_name);
+        complaint_room = (EditText)view.findViewById(R.id.complaint_room);
+        complaint_complain = (EditText)view.findViewById(R.id.complaint_complain);
+
+        complaint_button = (Button)view.findViewById(R.id.complaint_button);
+        complaint_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getComplaint(view);
+            }
+        });
     }
 
     /**
