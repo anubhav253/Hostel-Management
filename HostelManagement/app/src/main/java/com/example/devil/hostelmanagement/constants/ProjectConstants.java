@@ -5,5 +5,5 @@ package com.example.devil.hostelmanagement.constants;
  */
 
 public class ProjectConstants {
-    public static String BASE_URL = "http://192.168.43.171:8080/";
+    public static String BASE_URL = "http://192.168.43.171:8081/";
 }
