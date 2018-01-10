@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.devil.hostelmanagement.LoginActivity;
@@ -36,7 +37,13 @@ import retrofit2.Response;
  */
 public class FoodMenu extends BaseFragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    // the fragment initialization parameters, e.g.
+
+    private TextView food_date;
+    private TextView food_breakfast;
+    private TextView food_lunch;
+    private TextView food_dinner;
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -72,10 +79,6 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         getFoodData();
     }
 
@@ -89,6 +92,13 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
                 if(response.code() == 200) {
                     Log.i("Flask Response", "" + response.code() + response.message());
                     JSONObject resObj = response.body();
+
+                    //
+                    food_date.setText("2018-01-10");
+                    food_breakfast.setText("POHA");
+                    food_lunch.setText("Kadi , Chane");
+                    food_dinner.setText("Aaloo gobhi, Chana dal");
+
                     Log.i("Flask Response",resObj.toString());
 //                    JSONArray breafast = resObj[0];
                 }
@@ -118,6 +128,12 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_food_menu, container, false);
+
+        food_date = (TextView)view.findViewById(R.id.food_date);
+        food_breakfast = (TextView)view.findViewById(R.id.food_breakfast);
+        food_lunch = (TextView)view.findViewById(R.id.food_lunch);
+        food_dinner = (TextView)view.findViewById(R.id.food_dinner);
+
         getFoodData();
         return inflater.inflate(R.layout.fragment_food_menu, container, false);
     }

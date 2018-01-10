@@ -146,5 +146,38 @@ def getFoodData():
 	    )
 	return response
 
+
+@app.route('/complaint', methods=['POST'])
+def complaint():
+	#print ("request loggingg" , request.body);
+	FullName = request.json['nameValuePairs']['FullName'];
+	RoomNumber = request.json['nameValuePairs']['RoomNumber'];
+	complaint_type = request.json['nameValuePairs']['complaint_type'];
+	complain = request.json['nameValuePairs']['complain'];
+	print ("Room Number " + RoomNumber);
+	#sql = "INSERT INTO products(name, category_id, sub_category_id) VALUES ('%s' ,%d, %d)" % (name + ' (' + sku + ')',i+1,i+1)
+	sql = "INSERT into complaint(FullName,RoomNumber,complaint_type,complain) VALUES ('%s', '%s', '%s', '%s')" % (Email,fullname, mobile, U_password)
+	data = a.execute(sql);
+	conn.commit();
+	print ("data", data)
+	response = "";
+	if(data):
+		#valid User
+		response = app.response_class(
+	        response=json.dumps(data),
+	        status=200,
+	        mimetype='application/json'
+	    )
+	else:
+		#invalid user since we cannot find any one with matching name
+		response = app.response_class(
+	        response=json.dumps({
+	        	"message" :"Something Went Wrong please try again later"
+	        	}),
+	        status=400,
+	        mimetype='application/json'
+	    )
+	return response
+
 if __name__ == '__main__':
 	app.run(host="0.0.0.0",debug=True,port=8080)

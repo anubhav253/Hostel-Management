@@ -26,4 +26,7 @@ public interface UserService {
     @GET("fooddata")
     Call<JSONObject> fooddata(@Query("date") String date);
 
+    @POST("complaint")
+    Call<JSONObject> complaint(@Body JSONObject body);
+
 }
