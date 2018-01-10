@@ -1,6 +1,7 @@
 package com.example.devil.hostelmanagement.Remote;
 
 import com.example.devil.hostelmanagement.model.ResObj;
+import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
@@ -24,6 +25,6 @@ public interface UserService {
     Call<JSONObject> register(@Body JSONObject body);
 
     @GET("fooddata")
-    Call<JSONObject> fooddata(@Query("date") String date);
+    Call<JsonObject> fooddata(@Query("date") String date);
 
 }

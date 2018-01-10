@@ -40,6 +40,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/food_breakfast"
                     android:text="Breakfast:-"
                     android:textSize="20dp"/>
             </LinearLayout>
@@ -70,6 +71,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:id="@+id/food_lunch"
                     android:text="Lunch:-"
                     android:textSize="20dp"/>
             </LinearLayout>
@@ -100,6 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/food_dinner"
                     android:text="Dinner:-"
                     android:textSize="20dp"/>
             </LinearLayout>

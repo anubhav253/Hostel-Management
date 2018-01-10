@@ -137,7 +137,6 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("Flask Response", "" + t.getMessage());
                 Log.i("Flask Resposne err", t.getStackTrace().toString());
                 Toast.makeText(LoginActivity.this,t.getMessage(),Toast.LENGTH_SHORT).show();
-
             }
         });
     }

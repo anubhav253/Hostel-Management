@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.devil.hostelmanagement.LoginActivity;
@@ -17,6 +18,7 @@ import com.example.devil.hostelmanagement.R;
 import com.example.devil.hostelmanagement.Remote.RetrofitClient;
 import com.example.devil.hostelmanagement.Remote.UserService;
 import com.example.devil.hostelmanagement.constants.ProjectConstants;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +42,11 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    TextView food_date;
+    TextView food_breakfast;
+    TextView food_lunch;
+    TextView food_dinner;
+
     View view;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -59,7 +66,7 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
      * @param param2 Parameter 2.
      * @return A new instance of fragment FoodMenu.
      */
-    // TODO: Rename and change types and number of parameters
+     //TODO: Rename and change types and number of parameters
     public static FoodMenu newInstance(String param1, String param2) {
         FoodMenu fragment = new FoodMenu();
         Bundle args = new Bundle();
@@ -76,21 +83,25 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        getFoodData();
     }
 
-    private  void getFoodData(){
+    private  void getFoodData(View view){
+        setTextViews(view);
         String BASE_URL = ProjectConstants.BASE_URL;
         UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
-        Call<JSONObject> call= userService.fooddata("1");
-        call.enqueue(new Callback<JSONObject>() {
+        Call<JsonObject> call= userService.fooddata("1");
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if(response.code() == 200) {
                     Log.i("Flask Response", "" + response.code() + response.message());
-                    JSONObject resObj = response.body();
+                    JsonObject resObj = response.body();
                     Log.i("Flask Response",resObj.toString());
-//                    JSONArray breafast = resObj[0];
+//                  JSONArray breafast = resObj[0];
+                    food_date.setText("2018-01-10");
+                    food_breakfast.setText("afadfa");
+                    food_lunch.setText("affaf");
+                    food_dinner.setText("dafasf");
                 }
                 else if(response.code() == 400){
                     Toast.makeText(getActivity(), "The user name or password is incorrect", Toast.LENGTH_SHORT).show();
@@ -98,16 +109,21 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
                 else{
                     Log.i("Flask Response", "" + response.code() + response.message());
                     Toast.makeText(getActivity(),"Error, Try again!",Toast.LENGTH_SHORT).show();
+                    food_breakfast.setText("Not Available");
+                    food_lunch.setText("Not Available");
+                    food_dinner.setText("Not Available");
                 }
 
             }
 
             @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.i("Flask Response", "" + t.getMessage());
                 Log.i("Flask Resposne err", t.getStackTrace().toString());
                 Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_SHORT).show();
-
+                food_breakfast.setText("Not Available");
+                food_lunch.setText("Not Available");
+                food_dinner.setText("Not Available");
             }
         });
     }
@@ -118,8 +134,17 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_food_menu, container, false);
-        getFoodData();
-        return inflater.inflate(R.layout.fragment_food_menu, container, false);
+        getFoodData(view);
+        return view;
+    }
+
+    private void setTextViews(View view){
+        food_date = (TextView)view.findViewById(R.id.food_date);
+        food_breakfast = (TextView)view.findViewById(R.id.food_breakfast);
+        food_lunch = (TextView)view.findViewById(R.id.food_lunch);
+        food_dinner = (TextView)view.findViewById(R.id.food_dinner);
+//        food_date.setText("ABd");
+//        food_breakfast.setText("fasdfa");
     }
 
     // TODO: Rename method, update argument and hook method into UI event
