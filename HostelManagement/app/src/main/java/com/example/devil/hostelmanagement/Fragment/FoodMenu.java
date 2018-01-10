@@ -18,6 +18,8 @@ import com.example.devil.hostelmanagement.R;
 import com.example.devil.hostelmanagement.Remote.RetrofitClient;
 import com.example.devil.hostelmanagement.Remote.UserService;
 import com.example.devil.hostelmanagement.constants.ProjectConstants;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -96,12 +98,33 @@ public class FoodMenu extends BaseFragment implements View.OnClickListener {
                 if(response.code() == 200) {
                     Log.i("Flask Response", "" + response.code() + response.message());
                     JsonObject resObj = response.body();
+                    JsonArray dataArray = resObj.getAsJsonArray("data");
+                    for(int i  = 0; i<dataArray.size(); i++ ){
+                        JsonArray food = (JsonArray) dataArray.get(i);
+                        String foodType = food.get(1).toString();
+                        String foodName = food.get(2).toString();
+                        String foodDate =  food.get(3).toString().substring(1,18);
+                        food_date.setText(foodDate);
+                        foodType = foodType.substring(1, foodType.length()-1);
+                        Log.i("Parsing Values " ,foodType);
+
+                        String str = foodType + ":-" + foodName;
+
+                        if(foodType.equals("Breakfast")){
+                            food_breakfast.setText(str);
+                        }
+                        else if (foodType.equals("Lunch") ){
+                            food_lunch.setText(str);
+                        }
+                        else if(foodType.equals("Dinner")){
+                            food_dinner.setText(str);
+                        }
+                        else{
+                                Log.i("parsing value", "Everything ok");
+                        }
+                    }
                     Log.i("Flask Response",resObj.toString());
 //                  JSONArray breafast = resObj[0];
-                    food_date.setText("2018-01-10");
-                    food_breakfast.setText("afadfa");
-                    food_lunch.setText("affaf");
-                    food_dinner.setText("dafasf");
                 }
                 else if(response.code() == 400){
                     Toast.makeText(getActivity(), "The user name or password is incorrect", Toast.LENGTH_SHORT).show();
