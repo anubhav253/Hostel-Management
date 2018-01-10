@@ -1,14 +1,30 @@
 package com.example.devil.hostelmanagement.Fragment;
 
-import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.devil.hostelmanagement.LoginActivity;
 import com.example.devil.hostelmanagement.R;
+import com.example.devil.hostelmanagement.Remote.RetrofitClient;
+import com.example.devil.hostelmanagement.Remote.UserService;
+import com.example.devil.hostelmanagement.constants.ProjectConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +40,18 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     View view;
+    private EditText complaint_name;
+    private EditText complaint_room;
+    private Spinner complaint_menu_list;
+    private Spinner complaint_type_list;
+    private EditText complaint_complain;
+    private Button complaint_button;
+
+    private String FullName;
+    private String RoomNumber;
+    private String complaint_menu;
+    private String complaint_type;
+    private String complain;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -56,11 +84,68 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        complaint_name = (EditText)view.findViewById(R.id.complaint_name);
+        complaint_room = (EditText)view.findViewById(R.id.complaint_room);
+        complaint_complain = (EditText)view.findViewById(R.id.complaint_complain);
+
+        complaint_button = (Button)view.findViewById(R.id.complaint_button);
+        complaint_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                getComplaint(view);
+            }
+        });
+
 
     }
 
-    private void getComplaint(){
+    private void getComplaint(View view) {
+        FullName = complaint_name.getText().toString();
+        RoomNumber = complaint_room.getText().toString();
+        complain = complaint_complain.getText().toString();
 
+        if (FullName == "" ||  RoomNumber == ""  || complain == ""){
+            Toast.makeText(getActivity(), "Please provide all the details",Toast.LENGTH_SHORT).show();
+        }
+
+
+        String BASE_URL = ProjectConstants.BASE_URL;
+        UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
+        JSONObject body = new JSONObject();
+        try {
+            body.put("FullName", FullName);
+            body.put("RoomNumber", RoomNumber);
+            body.put("complain",complain);
+        } catch (JSONException e){
+            Log.i("JSON Object", "Something went wrong while adding json");
+        }
+        Call<JSONObject> call= userService.complaint(body);
+        call.enqueue(new Callback<JSONObject>() {
+            @Override
+            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                if(response.code() == 200) {
+                    Log.i("Flask Response", "" + response.code() + response.message());
+                    JSONObject resObj = response.body();
+                    Intent i=new Intent(getActivity(),LoginActivity.class);
+                    startActivity(i);
+                }
+                else if(response.code() == 400){
+                    Toast.makeText(getActivity(), "Invalid details or duplicate user.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Log.i("Flask Response", "" + response.code() + response.message());
+                    Toast.makeText(getActivity(),"Error, Try again!",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JSONObject> call, Throwable t) {
+                Log.i("Flask Response", "" + t.getMessage());
+                Log.i("Flask Resposne err", t.getStackTrace().toString());
+                Toast.makeText(getActivity(),t.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -70,7 +155,8 @@ public class ComplaintMenu extends BaseFragment implements View.OnClickListener 
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_complaint_menu, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_complaint_menu, container, false);
+        getComplaint(view);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

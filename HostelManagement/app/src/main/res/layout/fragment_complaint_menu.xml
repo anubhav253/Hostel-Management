@@ -54,13 +54,13 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/complaint_menu"
+            android:id="@+id/complaint_type_list"
             android:paddingTop="20dp"/>
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/complaint_list"
+            android:id="@+id/complaint_menu_list"
             android:paddingTop="20dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -71,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:id="@+id/complaint_complain"
             android:hint="Write your complaint" />
 
         <Button
