@@ -6,22 +6,16 @@
             android:id="@+id/nav_food"
             android:icon="@drawable/ic_menu_camera"
             android:title="Food" />
-        <item
-            android:id="@+id/nav_fee"
-            android:icon="@drawable/ic_menu_fee"
-            android:title="Fee" />
-        <item
-            android:id="@+id/nav_notice"
-            android:icon="@drawable/ic_menu_notice"
-            android:title="Notice" />
-        <item
-            android:id="@+id/nav_attendance"
-            android:icon="@drawable/ic_menu_attendance"
-            android:title="Attendance" />
+
         <item
             android:id="@+id/nav_complaint"
             android:icon="@drawable/ic_menu_complaint"
             android:title="Complaint" />
+
+        <item
+            android:id="@+id/nav_notice"
+            android:icon="@drawable/ic_menu_notice"
+            android:title="Notice" />
     </group>
 
 

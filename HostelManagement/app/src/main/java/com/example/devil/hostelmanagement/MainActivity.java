@@ -96,19 +96,12 @@ public class MainActivity extends AppCompatActivity
             setTitle("Food");
             Fragment fragment = new FoodMenu();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
-        } else if (id == R.id.nav_fee) {
-            setTitle("Fee");
-            Fragment fragment = new FeeMenu();
-            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
-        } else if (id == R.id.nav_notice) {
+        }
+         else if (id == R.id.nav_notice) {
             setTitle("Notice");
             Fragment fragment = new NoticeMenu();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
-        } else if (id == R.id.nav_attendance) {
-            setTitle("Attendance");
-            Fragment fragment = new AttendanceMenu();
-            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
-        }else if (id == R.id.nav_complaint) {
+        } else if (id == R.id.nav_complaint) {
             setTitle("Complaint");
             Fragment fragment = new ComplaintMenu();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commitAllowingStateLoss();
