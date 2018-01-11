@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText login_email;
     EditText login_password;
     Button sign_in_button;
+    CheckBox login_checkBox;
     //UserService userService;
 
     private PrefManager prefManager;
@@ -46,13 +48,25 @@ public class LoginActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_login);
         TextView register = (TextView)findViewById(R.id.register);
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this,RegisterActivity.class);
-                startActivity(i);
-            }
-        });
+        TextView warden = (TextView)findViewById(R.id.warden);
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(LoginActivity.this,RegisterActivity.class);
+                    startActivity(i);
+                }
+            });
+
+            warden.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view){
+                    Intent i = new Intent(LoginActivity.this,WardenLogin.class);
+                    startActivity(i);
+                }
+
+            });
+
+
 
         login_email = (EditText) findViewById(R.id.login_email);
         login_password= (EditText) findViewById(R.id.login_password);
@@ -141,4 +155,9 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public void onCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+
+
+    }
 }

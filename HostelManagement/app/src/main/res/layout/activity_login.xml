@@ -61,7 +61,7 @@
             android:id="@+id/sign_in_button"
             style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="SIGN IN"
             android:onClick="SignIn"
@@ -76,6 +76,15 @@
             android:id="@+id/register"
             android:text="New User? Register here"
             android:paddingTop="50dp"
+            android:textColor="#ffffff"
+            android:textAlignment="center"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/warden"
+            android:text="Warden Login"
+            android:layout_marginTop="30dp"
             android:textColor="#ffffff"
             android:textAlignment="center"
             android:gravity="center"/>
