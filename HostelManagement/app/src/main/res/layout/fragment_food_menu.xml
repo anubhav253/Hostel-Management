@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -49,19 +48,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Button
+                <ToggleButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/food_toggle_breakfast"
+                    android:textOff="No"
+                    android:textOn="Yes"
+                    android:text="ToggleBreakfast"
                     android:layout_gravity="right"
-                    android:background="@android:color/holo_green_dark"
-                    android:text="Yes" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:background="@android:color/holo_red_dark"
-                    android:text="No" />
+                    android:background="@android:color/holo_green_dark" />
 
             </LinearLayout>
 
@@ -80,19 +75,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Button
+                <ToggleButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:background="@android:color/holo_green_dark"
-                    android:text="Yes" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:background="@android:color/holo_red_dark"
-                    android:text="No" />
+                    android:id="@+id/food_toggle_lunch"
+                    android:text="ToggleLunch"
+                    android:textOff="No"
+                    android:textOn="Yes"
+                    android:background="@android:color/holo_green_dark" />
 
             </LinearLayout>
 
@@ -111,19 +102,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Button
+                <ToggleButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/food_toggle_dinner"
+                    android:textOff="No"
+                    android:textOn="Yes"
+                    android:text="ToggleDinner"
                     android:layout_gravity="right"
-                    android:background="@android:color/holo_green_dark"
-                    android:text="Yes" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:background="@android:color/holo_red_dark"
-                    android:text="No" />
+                    android:background="@android:color/holo_green_dark" />
 
             </LinearLayout>
 
@@ -132,6 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
+            android:id="@+id/food_submit"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"/>
 
