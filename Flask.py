@@ -1,12 +1,26 @@
 from flask import Flask, jsonify, request, json
 import MySQLdb
+import smtplib
 import datetime
+
+data = json.load(open('config.json'))
+senderEmail = data["gmailCred"]["email"]
+senderPassword = data["gmailCred"]["passWord"]
 
 conn = MySQLdb.connect(host='localhost',user='root',passwd='abc123',db='hostel')
 a=conn.cursor()
 
+s = smtplib.SMTP('smtp.gmail.com', 587)
+s.starttls()
+
 
 app = Flask(__name__) #define app using flask
+
+def sendEmail(Email, message):
+	s.login(senderEmail, senderPassword)
+	print ("Sending Message to " + Email);
+	s.sendmail("anubhavkumar.cse19@jecrc.ac.in", Email, message)
+	s.quit();
 
 @app.route('/', methods=['GET'])
 def test():
@@ -61,8 +75,10 @@ def checkSignUp():
 	conn.commit();
 	print ("data", data)
 	response = "";
+
 	if(data):
-		#valid User
+		#valid 
+		sendEmail(Email, "You are registered Successfully")
 		response = app.response_class(
 	        response=json.dumps(data),
 	        status=200,
