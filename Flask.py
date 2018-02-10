@@ -6,8 +6,9 @@ import datetime
 data = json.load(open('config.json'))
 senderEmail = data["gmailCred"]["email"]
 senderPassword = data["gmailCred"]["passWord"]
+dbCred = data["dbCred"];
 
-conn = MySQLdb.connect(host='localhost',user='root',passwd='abc123',db='hostel')
+conn = MySQLdb.connect(host=dbCred["host"],user=dbCred["user"],passwd=dbCred["passwd"],db=dbCred["db"])
 a=conn.cursor()
 
 s = smtplib.SMTP('smtp.gmail.com', 587)
