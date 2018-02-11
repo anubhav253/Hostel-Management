@@ -2,26 +2,29 @@ from flask import Flask, jsonify, request, json
 import MySQLdb
 import smtplib
 import datetime
+import redis
 
 data = json.load(open('config.json'))
 senderEmail = data["gmailCred"]["email"]
 senderPassword = data["gmailCred"]["passWord"]
 dbCred = data["dbCred"];
+redisCred = data["redisCred"]
 
+r_conn = redis.StrictRedis(host=redisCred["host"], port=redisCred["port"], db=redisCred["db"])
 conn = MySQLdb.connect(host=dbCred["host"],user=dbCred["user"],passwd=dbCred["passwd"],db=dbCred["db"])
 a=conn.cursor()
 
-s = smtplib.SMTP('smtp.gmail.com', 587)
-s.starttls()
+emailClient = smtplib.SMTP('smtp.gmail.com', 587)
+emailClient.starttls()
 
 
 app = Flask(__name__) #define app using flask
 
 def sendEmail(Email, message):
-	s.login(senderEmail, senderPassword)
+	emailClient.login(senderEmail, senderPassword)
 	print ("Sending Message to " + Email);
-	s.sendmail("anubhavkumar.cse19@jecrc.ac.in", Email, message)
-	s.quit();
+	emailClient.sendmail(senderEmail, Email, message)
+	emailClient.quit();
 
 @app.route('/', methods=['GET'])
 def test():
@@ -190,6 +193,32 @@ def complaint():
 		response = app.response_class(
 	        response=json.dumps({
 	        	"message" :"Something Went Wrong please try again later"
+	        	}),
+	        status=400,
+	        mimetype='application/json'
+	    )
+	return response
+
+@app.route('/forget-password', methods=['POST'])
+def forgetPassword():
+	body_json = request.get_json();
+	body = body_json["nameValuePairs"];
+	Email = body['Email'];
+	sql = "SELECT * from `users` where Email='%s'"% (Email);
+	a.execute(sql);
+	data = a.fetchall();
+	response = "";
+	if(len(data)):
+		sendEmail(Email, "Please reset your email");
+		response = app.response_class(
+	        response=json.dumps({}),
+	        status=200,
+	        mimetype='application/json'
+	    )
+	else:
+		response = app.response_class(
+	        response=json.dumps({
+	        	"message": "something went wrong please try again"
 	        	}),
 	        status=400,
 	        mimetype='application/json'
