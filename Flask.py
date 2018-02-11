@@ -3,6 +3,7 @@ import MySQLdb
 import smtplib
 import datetime
 import redis
+import uuid
 
 data = json.load(open('config.json'))
 senderEmail = data["gmailCred"]["email"]
@@ -10,7 +11,7 @@ senderPassword = data["gmailCred"]["passWord"]
 dbCred = data["dbCred"];
 redisCred = data["redisCred"]
 
-r_conn = redis.StrictRedis(host=redisCred["host"], port=redisCred["port"], db=redisCred["db"])
+redisConn = redis.StrictRedis(host=redisCred["host"], port=redisCred["port"], db=redisCred["db"])
 conn = MySQLdb.connect(host=dbCred["host"],user=dbCred["user"],passwd=dbCred["passwd"],db=dbCred["db"])
 a=conn.cursor()
 
@@ -147,7 +148,6 @@ def getFoodData():
 	data = a.fetchall();
 	response = "";
 	if(len(data)):
-		#valid User
 		response = app.response_class(
 	        response=json.dumps({
                         "data":data
@@ -156,7 +156,6 @@ def getFoodData():
 	        mimetype='application/json'
 	    )
 	else:
-		#invalid user since we cannot find any one with matching name
 		response = app.response_class(
 	        response=json.dumps({
 	        		"message" : "Something Went wrong not datat found"
@@ -169,7 +168,6 @@ def getFoodData():
 
 @app.route('/complaint', methods=['POST'])
 def complaint():
-	#print ("request loggingg" , request.body);
 	FullName = request.json['nameValuePairs']['FullName'];
 	RoomNumber = request.json['nameValuePairs']['RoomNumber'];
 	complaint_type = request.json['nameValuePairs']['complaint_type'];
@@ -209,7 +207,46 @@ def forgetPassword():
 	data = a.fetchall();
 	response = "";
 	if(len(data)):
-		sendEmail(Email, "Please reset your email");
+		redisValue = uuid.uuid4().hex;
+		redisConn.set(Email, redisValue);
+		sendEmail(Email, "Please reset your email use this code with passWord " + redisValue);
+		response = app.response_class(
+	        response=json.dumps({}),
+	        status=200,
+	        mimetype='application/json'
+	    )
+	else:
+		response = app.response_class(
+	        response=json.dumps({
+	        	"message": "something went wrong please try again"
+	        	}),
+	        status=400,
+	        mimetype='application/json'
+	    )
+	return response
+
+@app.route('/reset-password', methods=['POST'])
+def resetPassword():
+	response = "";
+	body_json = request.get_json();
+	body = body_json["nameValuePairs"];
+	Email = body['Email'];
+	New_password = body['New_password'];
+	user_id	= body['uuid'];
+	redisValue = redisConn.get(Email);
+	if(redisValue != user_id):
+		response = app.response_class(
+	        response=json.dumps({
+	        	"message": "Invalid User"
+	        	}),
+	        status=401,
+	        mimetype='application/json'
+	    )
+		return response
+	sql = "UPDATE `users` set U_password='%s' where Email='%s' " % (New_password,Email);
+	data = a.execute(sql);
+	conn.commit();	
+	if(data):
 		response = app.response_class(
 	        response=json.dumps({}),
 	        status=200,
