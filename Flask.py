@@ -208,6 +208,22 @@ def forgetPassword():
 	response = "";
 	if(len(data)):
 		redisValue = uuid.uuid4().hex;
+		timeLimitKey = "email--"+Email;
+		limitCount = int (redisConn.get(timeLimitKey));
+		print("limit count    ",limitCount)
+		if(limitCount > 5):
+			response = app.response_class(
+		        response=json.dumps({
+		        	"message": "Retry Limit exceeded"
+		        	}),
+		        status=400,
+		        mimetype='application/json'
+		    )
+			return response;
+		elif(limitCount):
+			redisConn.setex(timeLimitKey, 600, limitCount + 1);
+		else:
+			redisConn.setex(timeLimitKey, 600, 1);
 		redisConn.setex(Email, 600 , redisValue);
 		message = 'Subject: {}\n\n{}'.format("Reset Email","Please reset your email use this code with passWord ")
 		sendEmail(Email, message + redisValue);
