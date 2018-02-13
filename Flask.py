@@ -208,7 +208,7 @@ def forgetPassword():
 	response = "";
 	if(len(data)):
 		redisValue = uuid.uuid4().hex;
-		redisConn.set(Email, redisValue);
+		redisConn.setex(Email, 600 , redisValue);
 		sendEmail(Email, "Please reset your email use this code with passWord " + redisValue);
 		response = app.response_class(
 	        response=json.dumps({}),
