@@ -248,6 +248,7 @@ def resetPassword():
 	data = a.execute(sql);
 	conn.commit();	
 	if(data):
+		redisConn.delete(Email)
 		response = app.response_class(
 	        response=json.dumps({}),
 	        status=200,
