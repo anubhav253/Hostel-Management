@@ -11,8 +11,9 @@ sender = data["otpConstant"]["sender"]
 route = data["otpConstant"]["route"]
 sendUrl = data["otpConstant"]["sendUrl"]
 resendUrl = data["otpConstant"]["resendUrl"]
+verifyUrl = data["otpConstant"]["verifyUrl"]
 redisCred = data["redisCred"]
-
+app = Flask(__name__)
 redisConn = redis.StrictRedis(host=redisCred["host"], port=redisCred["port"], db=redisCred["db"])
 
 def generateOtp(mobileNumber):
@@ -60,5 +61,22 @@ def resendOtp(mobileNumber,message):
 	print output
 	return response.read()
 
-#sendOtp("7014373836","Your otp is ")
-resendOtp("7014373836","your otp is")
+def verifyOtp(mobileNumber, otp):
+	otp1 = redisConn.get("otp--" + str(mobileNumber))
+	response = "";
+	if(otp1 == None):
+		response = 404
+		print response
+
+	elif(otp1 == otp):
+		response = 200 
+		print response
+
+	else:
+		response = 400 
+		print response
+	return response
+
+#sendOtp("9999999999","Your otp is ")
+#resendOtp("9999999999","your otp is")
+verifyOtp("9999999999", "otp")
