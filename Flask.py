@@ -8,11 +8,11 @@ import uuid
 data = json.load(open('config.json'))
 senderEmail = data["gmailCred"]["email"]
 senderPassword = data["gmailCred"]["passWord"]
-dbCred = data["dbCred"];
+dbCred = data["dbCred"]
 redisCred = data["redisCred"]
 
 redisConn = redis.StrictRedis(host=redisCred["host"], port=redisCred["port"], db=redisCred["db"])
-conn = MySQLdb.connect(host=dbCred["host"],user=dbCred["user"],passwd=dbCred["passwd"],db=dbCred["db"])
+conn = MySQLdb.connect(host=dbCred["host"], user=dbCred["user"], passwd=dbCred["passwd"], db=dbCred["db"])
 a=conn.cursor()
 
 emailClient = smtplib.SMTP('smtp.gmail.com', 587)
@@ -23,15 +23,15 @@ app = Flask(__name__) #define app using flask
 
 def sendEmail(Email, message):
 	emailClient.login(senderEmail, senderPassword)
-	print ("Sending Message to " + Email);
+	print ("Sending Message to " + Email)
 	emailClient.sendmail(senderEmail, Email, message)
-	emailClient.quit();
+	emailClient.quit()
 
 @app.route('/', methods=['GET'])
 def test():
-	sql = "SELECT * from `users`";
+	sql = "SELECT * from `users`"
 	a.execute(sql)
-	data=a.fetchall()
+	data = a.fetchall()
 	#print (data)
 	return jsonify(data)
 
@@ -39,15 +39,15 @@ def test():
 def checkLogin():
 	#print ("request loggingg" , request.body);
 	#print (request.get_json() );
-	body_json = request.get_json();
-	body = body_json["nameValuePairs"];
-	Email = body['Email'];
-	U_password = body['U_password'];
+	body_json = request.get_json()
+	body = body_json["nameValuePairs"]
+	Email = body['Email']
+	U_password = body['U_password']
 	#print ("Email " + Email);
-	sql = "SELECT * from `users` where Email='%s' and U_password='%s'"% (Email,U_password);
-	a.execute(sql);
-	data = a.fetchall();
-	response = "";
+	sql = "SELECT * from `users` where Email='%s' and U_password='%s'"% (Email,U_password)
+	a.execute(sql)
+	data = a.fetchall()
+	response = ""
 	if(len(data)):
 		#valid User
 		#print (jsonify(data))
@@ -69,17 +69,17 @@ def checkLogin():
 @app.route('/signup', methods=['POST'])
 def checkSignUp():
 	#print ("request loggingg" , request.body);
-	Email = request.json['nameValuePairs']['Email'];
-	U_password = request.json['nameValuePairs']['password'];
-	fullname = request.json['nameValuePairs']['fullname'];
-	mobile = request.json['nameValuePairs']['mobile'];
-	print ("Email " + Email);
+	Email = request.json['nameValuePairs']['Email']
+	U_password = request.json['nameValuePairs']['password']
+	fullname = request.json['nameValuePairs']['fullname']
+	mobile = request.json['nameValuePairs']['mobile']
+	print ("Email " + Email)
 	#sql = "INSERT INTO products(name, category_id, sub_category_id) VALUES ('%s' ,%d, %d)" % (name + ' (' + sku + ')',i+1,i+1)
-	sql = "INSERT into users(Email,FullName,PhoneNumber,U_password) VALUES ('%s', '%s', '%s', '%s')" % (Email,fullname, mobile, U_password)
-	data = a.execute(sql);
-	conn.commit();
+	sql = "INSERT into users(Email,FullName,PhoneNumber,U_password) VALUES ('%s', '%s', '%s', '%s')" % (Email, fullname, mobile, U_password)
+	data = a.execute(sql)
+	conn.commit()
 	print ("data", data)
-	response = "";
+	response = ""
 
 	if(data):
 		#valid 
@@ -103,14 +103,14 @@ def checkSignUp():
 @app.route('/fooddata', methods=['POST'])
 def postFoodData():
 	#print ("request loggingg" , request.body);
-	email = request.json['email'];
-	foodId = request.json['foodId'];
-	selected = request.json['selected'];
-	sql = "INSERT into food_record(user_id,food_id,status) VALUES ('%s', '%s', '%s')" % (email,foodId,selected)
-	data=a.execute(sql);
-	conn.commit();
+	email = request.json['email']
+	foodId = request.json['foodId']
+	selected = request.json['selected']
+	sql = "INSERT into food_record(user_id, food_id, status) VALUES ('%s', '%s', '%s')" % (email, foodId, selected)
+	data=a.execute(sql)
+	conn.commit()
 	print ("data", data)
-	response = "";
+	response = ""
 	if(data):
 		#valid User
 		response = app.response_class(
@@ -134,9 +134,9 @@ def postFoodData():
 @app.route('/fooddata', methods=['GET'])
 def getFoodData():
 	
-	getdate = request.args.get("date");
+	getdate = request.args.get("date")
 
-	timedelta = datetime.timedelta(days=int(getdate));
+	timedelta = datetime.timedelta(days=int(getdate))
 	now = datetime.datetime.now()
 
 	currenDate = now.strftime("%Y-%m-%d")
@@ -144,9 +144,9 @@ def getFoodData():
 	nextDate = nextDate.strftime("%Y-%m-%d")
 
 	sql = "SELECT * from foodmenu where date = '%s'" % nextDate
-	a.execute(sql);
-	data = a.fetchall();
-	response = "";
+	a.execute(sql)
+	data = a.fetchall()
+	response = ""
 	if(len(data)):
 		response = app.response_class(
 	        response=json.dumps({
@@ -168,17 +168,17 @@ def getFoodData():
 
 @app.route('/complaint', methods=['POST'])
 def complaint():
-	FullName = request.json['nameValuePairs']['FullName'];
-	RoomNumber = request.json['nameValuePairs']['RoomNumber'];
-	complaint_type = request.json['nameValuePairs']['complaint_type'];
-	complain = request.json['nameValuePairs']['complain'];
-	print ("Room Number " + RoomNumber);
+	FullName = request.json['nameValuePairs']['FullName']
+	RoomNumber = request.json['nameValuePairs']['RoomNumber']
+	complaint_type = request.json['nameValuePairs']['complaint_type']
+	complain = request.json['nameValuePairs']['complain']
+	print ("Room Number " + RoomNumber)
 	#sql = "INSERT INTO products(name, category_id, sub_category_id) VALUES ('%s' ,%d, %d)" % (name + ' (' + sku + ')',i+1,i+1)
 	sql = "INSERT into complaint(FullName,RoomNumber,complaint_type,complain) VALUES ('%s', '%s', '%s', '%s')" % (FullName,RoomNumber, complaint_type, complain)
-	data = a.execute(sql);
-	conn.commit();
+	data = a.execute(sql)
+	conn.commit()
 	print ("data", data)
-	response = "";
+	response = ""
 	if(data):
 		#valid User
 		response = app.response_class(
@@ -199,17 +199,17 @@ def complaint():
 
 @app.route('/forget-password', methods=['POST'])
 def forgetPassword():
-	body_json = request.get_json();
-	body = body_json["nameValuePairs"];
-	Email = body['Email'];
-	sql = "SELECT * from `users` where Email='%s'"% (Email);
-	a.execute(sql);
-	data = a.fetchall();
-	response = "";
+	body_json = request.get_json()
+	body = body_json["nameValuePairs"]
+	Email = body['Email']
+	sql = "SELECT * from `users` where Email='%s'"% (Email)
+	a.execute(sql)
+	data = a.fetchall()
+	response = ""
 	if(len(data)):
-		redisValue = uuid.uuid4().hex;
-		timeLimitKey = "email--"+Email;
-		limitCount = int (redisConn.get(timeLimitKey));
+		redisValue = uuid.uuid4().hex
+		timeLimitKey = "email--"+Email
+		limitCount = int (redisConn.get(timeLimitKey))
 		print("limit count    ",limitCount)
 		if(limitCount > 5):
 			response = app.response_class(
@@ -219,14 +219,14 @@ def forgetPassword():
 		        status=400,
 		        mimetype='application/json'
 		    )
-			return response;
+			return response
 		elif(limitCount):
-			redisConn.setex(timeLimitKey, 600, limitCount + 1);
+			redisConn.setex(timeLimitKey, 600, limitCount + 1)
 		else:
-			redisConn.setex(timeLimitKey, 600, 1);
-		redisConn.setex(Email, 600 , redisValue);
+			redisConn.setex(timeLimitKey, 600, 1)
+		redisConn.setex(Email, 600 , redisValue)
 		message = 'Subject: {}\n\n{}'.format("Reset Email","Please reset your email use this code with passWord ")
-		sendEmail(Email, message + redisValue);
+		sendEmail(Email, message + redisValue)
 		response = app.response_class(
 	        response=json.dumps({}),
 	        status=200,
@@ -244,13 +244,13 @@ def forgetPassword():
 
 @app.route('/reset-password', methods=['POST'])
 def resetPassword():
-	response = "";
-	body_json = request.get_json();
-	body = body_json["nameValuePairs"];
-	Email = body['Email'];
-	New_password = body['New_password'];
-	user_id	= body['uuid'];
-	redisValue = redisConn.get(Email);
+	response = ""
+	body_json = request.get_json()
+	body = body_json["nameValuePairs"]
+	Email = body['Email']
+	New_password = body['New_password']
+	user_id	= body['uuid']
+	redisValue = redisConn.get(Email)
 	if(redisValue != user_id):
 		response = app.response_class(
 	        response=json.dumps({
@@ -260,9 +260,9 @@ def resetPassword():
 	        mimetype='application/json'
 	    )
 		return response
-	sql = "UPDATE `users` set U_password='%s' where Email='%s' " % (New_password,Email);
-	data = a.execute(sql);
-	conn.commit();	
+	sql = "UPDATE `users` set U_password='%s' where Email='%s' " % (New_password,Email)
+	data = a.execute(sql)
+	conn.commit()
 	if(data):
 		redisConn.delete(Email)
 		response = app.response_class(
