@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         String BASE_URL = ProjectConstants.BASE_URL;
         UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
-        JSONObject body = new JSONObject(); //yaha value baad mai daal denge abhi body empty jaega
+        JSONObject body = new JSONObject();
         try {
             body.put("Email", email);
             body.put("password", password);

@@ -38,13 +38,10 @@ def test():
 
 @app.route('/login', methods=['POST'])
 def checkLogin():
-    #print ("request loggingg" , request.body);
-    #print (request.get_json() );
     body_json = request.get_json()
     body = body_json["nameValuePairs"]
     Email = body['Email']
     U_password = body['U_password']
-    #print ("Email " + Email);
     sql = "SELECT * from `users` where Email = '%s' and U_password = '%s'" % (Email, U_password)
     a.execute(sql)
     data = a.fetchall()
@@ -57,7 +54,6 @@ def checkLogin():
 
 @app.route('/signup', methods=['POST'])
 def checkSignUp():
-	#print ("request loggingg" , request.body);
     Email = request.json['nameValuePairs']['Email']
     U_password = request.json['nameValuePairs']['password']
     fullname = request.json['nameValuePairs']['fullname']
@@ -80,7 +76,6 @@ def checkSignUp():
 
 @app.route('/fooddata', methods=['POST'])
 def postFoodData():
-	#print ("request loggingg" , request.body);
     email = request.json['email']
     foodId = request.json['foodId']
     selected = request.json['selected']

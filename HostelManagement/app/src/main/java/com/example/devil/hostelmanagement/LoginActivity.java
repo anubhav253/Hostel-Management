@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     private void doLogin(final String Email, final String U_password){
         String BASE_URL = ProjectConstants.BASE_URL;
         UserService userService = RetrofitClient.getClient(BASE_URL).create(UserService.class);
-        JSONObject body = new JSONObject(); //yaha value baad mai daal denge abhi body empty jaega
+        JSONObject body = new JSONObject();
         try {
             body.put("Email", Email);
             body.put("U_password", U_password);
