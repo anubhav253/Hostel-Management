@@ -10,9 +10,37 @@ Change directory and switch to the develop branch:
 ```bash
 cd Hostel-Management
 
-git checkout -b change origin/master
+git checkout -b change origin/develop
 ```
 
 Install requirements using:
 ```bash
 pip install .
+```
+Config file added:
+```bash
+{
+	"gmailCred": {
+		"email": "",
+		"passWord": ""
+	},
+	"dbCred":{
+		"host": "localhost",
+		"user": "root",
+		"passwd": "",
+		"db" : ""
+	},
+	"redisCred":{
+		"host": "localhost",
+		"port": "",
+		"db" : 0
+	},
+	"otpConstant":{
+		"otp_authkey" : "",
+		"sender" : "",
+		"route" : "default",
+		"sendUrl" : "",
+		"resendUrl" : "",
+		"verifyUrl" : ""
+	}
+}
